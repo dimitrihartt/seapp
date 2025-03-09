@@ -1,8 +1,8 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import FontAwesome from '@expo/vector-icons/FontAwesome6';
 import { StyleSheet } from 'react-native';
 
 export const TabBarIcon = (props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+  name: React.ComponentProps<typeof FontAwesome6>['name'];
   color: string;
 }) => {
   return <FontAwesome size={28} style={styles.tabBarIcon} {...props} />;

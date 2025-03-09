@@ -6,7 +6,7 @@ export const HeaderButton = forwardRef<typeof Pressable, { onPress?: () => void 
   ({ onPress }, ref) => {
     return (
       <Pressable onPress={onPress}>
-        {({ pressed }) => (
+        {({ pressed }) => ( 
           <FontAwesome
             name="info-circle"
             size={25}
