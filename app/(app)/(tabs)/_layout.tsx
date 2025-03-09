@@ -1,7 +1,7 @@
 import { Link, Tabs } from 'expo-router';
 
 import { HeaderButton } from '../../../components/HeaderButton';
-import { TabBarIcon } from '../../../components/TabBarIcon';
+import { TabBarIconFontAwesome5 } from '~/components/TabBarIconF5';
 
 export default function TabLayout() {
   return (
@@ -13,7 +13,8 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIconFontAwesome5 name="home" color={color} />,
+          tabBarLabel: 'Home',
           headerRight: () => (
             <Link href="/modal" asChild>
               <HeaderButton />
@@ -25,14 +26,16 @@ export default function TabLayout() {
         name="wallet"
         options={{
           title: 'My Wallet',
-          tabBarIcon: ({ color }) => <TabBarIcon name="wallet" color={color} />,
+          tabBarLabel: 'My Wallet',
+          tabBarIcon: ({ color }) => <TabBarIconFontAwesome5 name="wallet" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="history"
         options={{
-          title: 'Profile',
-          tabBarIcon: ({ color }) => <TabBarIcon name="person" color={color} />,
+          title: 'History',
+          tabBarLabel: 'History',
+          tabBarIcon: ({ color }) => <TabBarIconFontAwesome5 name="history" color={color} />,
         }}
       />
     </Tabs>

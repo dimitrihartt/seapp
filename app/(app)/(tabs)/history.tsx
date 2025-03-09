@@ -4,12 +4,12 @@ import { StyleSheet, View } from 'react-native';
 
 import { ScreenContent } from '~/components/ScreenContent';
 
-export default function Home() {
+export default function History() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Profile' }} />
+      <Stack.Screen options={{ title: 'Transaction History' }} />
       <View style={styles.container}>
-        <ScreenContent path="app/(tabs)/two.tsx" title="My Profile" />
+        <ScreenContent path="app/(tabs)/history.tsx" title="Transaction History" />
       </View>
     </>
   );
