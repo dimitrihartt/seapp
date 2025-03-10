@@ -1,8 +1,8 @@
 import { useContext, createContext, type PropsWithChildren } from 'react';
-import useStorageState from './components/authentication/useStorageState';
+import useStorageState from '~/components/authentication/useStorageState';
 
 const AuthContext = createContext<{
-  signIn: () => void;
+  signIn: (key: string) => void;
   signOut: () => void;
   session?: string | null;
   isLoading: boolean;
@@ -21,7 +21,6 @@ export function useSession() {
       throw new Error('useSession must be wrapped in a <SessionProvider />');
     }
   }
-
   return value;
 }
 
@@ -31,9 +30,9 @@ export function SessionProvider({ children }: PropsWithChildren) {
   return (
     <AuthContext.Provider
       value={{
-        signIn: () => {
+        signIn: (key: string) => {
           // Perform sign-in logic here
-          setSession('xxx');
+          setSession(key);
         },
         signOut: () => {
           setSession(null);

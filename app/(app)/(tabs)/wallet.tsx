@@ -24,6 +24,10 @@ import { Block } from '~/components/blockchain/Block';
 import { Blockchain } from '~/components/blockchain/Blockchain';
 import { Transaction } from '~/components/blockchain/Transaction';
 
+import useStorageState from '~/components/authentication/useStorageState';
+
+import { useSession } from '../../../ctx';
+
 import { Container } from '~/components/Container';
 import { ActivityIndicator } from '~/components/nativewindui/ActivityIndicator';
 import { Avatar, AvatarFallback, AvatarImage } from '~/components/nativewindui/Avatar';
@@ -44,6 +48,8 @@ export default function Home() {
     ? COMPONENTS.filter((c) => c.name.toLowerCase().includes(searchValue.toLowerCase()))
     : COMPONENTS;
 
+  const { session } = useSession();
+
   return (
     <>
       <Stack.Screen options={{ title: 'MyWallet' }} />
@@ -59,7 +65,7 @@ export default function Home() {
           keyExtractor={keyExtractor}
           ItemSeparatorComponent={renderItemSeparator}
           renderItem={renderItem}
-          ListEmptyComponent={COMPONENTS.length === 0 ? ListEmptyComponent : undefined}
+          ListEmptyComponent={COMPONENTS.length === 3 ? EmptyListComponent : undefined}
         />
       </Container>
     </>
@@ -76,7 +82,7 @@ function DefaultButton({ color, ...props }: ButtonProps) {
   return <RNButton color={color ?? colors.primary} {...props} />;
 }
 
-function ListEmptyComponent() {
+function EmptyListComponent() {
   const insets = useSafeAreaInsets();
   const dimensions = useWindowDimensions();
   const headerHeight = useHeaderHeight();
@@ -87,17 +93,14 @@ function ListEmptyComponent() {
     <View style={{ height }} className="flex-1 items-center justify-center gap-1 px-12">
       <Icon name="file-plus-outline" size={42} color={colors.grey} />
       <Text variant="title3" className="pb-1 text-center font-semibold">
-        No Components Installed
+        You don't have any wallet created yet.
       </Text>
       <Text color="tertiary" variant="subhead" className="pb-4 text-center">
-        You can install any of the free components from the{' '}
-        <Text
-          onPress={() => Linking.openURL('https://nativewindui.com')}
-          variant="subhead"
-          className="text-primary">
-          NativeWindUI
+        You can start by creating one{' '}
+        <Text onPress={() => getKey()} variant="subhead" className="text-primary">
+          MillionRay
         </Text>
-        {' website.'}
+        {' Wallet.'}
       </Text>
     </View>
   );
@@ -113,17 +116,9 @@ function renderItemSeparator() {
   return <View className="p-2" />;
 }
 
-function renderItem({ item }: { item: ComponentItem }) {
-  return (
-    <Card title={item.name}>
-      <item.component />
-    </Card>
-  );
-}
-
 function Card({ children, title }: { children: React.ReactNode; title: string }) {
   return (
-    <View className="px-4">
+    <View className="mt-4 px-4">
       <View className="gap-4 rounded-xl border border-border bg-card p-4 pb-6 shadow-sm shadow-black/10 dark:shadow-none">
         <Text className="text-center text-sm font-medium tracking-wider opacity-60">{title}</Text>
         {children}
@@ -132,17 +127,28 @@ function Card({ children, title }: { children: React.ReactNode; title: string })
   );
 }
 
+function renderItem({ item }: { item: ComponentItem }) {
+  return (
+    <Card title={item.name}>
+      <item.component />
+    </Card>
+  );
+}
+
 let hasRequestedReview = false;
 
-function getPublicKey() {
+function getKey() {
   const ec = new elliptic.ec('secp256k1');
-  //const myKey = ec.genKeyPair(); // This is your wallet's key pair
-  const myKey = ec.keyFromPrivate(
-    '7c4c45907dec40c91bab3480c39032e90049f1a44f3e18c3e07c23e3273995cf'
-  );
-  // From that we can calculate your public key (which doubles as your wallet address)
-  const publicKey = myKey.getPublic('hex');
-  return publicKey;
+  const key = ec.genKeyPair(); // This is your wallet's key pair
+  return key;
+}
+
+function getPublicKey(key: elliptic.ec.KeyPair) {
+  return key.getPublic('hex');
+}
+
+function getPrivateKey(key: elliptic.ec.KeyPair) {
+  return key.getPrivate('hex');
 }
 
 const COMPONENTS: ComponentItem[] = [
@@ -153,7 +159,8 @@ const COMPONENTS: ComponentItem[] = [
         <View>
           <Text uiTextView>Address:</Text>
           <Text uiTextView selectable>
-            My Public Key is: {getPublicKey()}
+            My Public Key is: {getPublicKey(getKey())}
+            My Private Key is: {getPrivateKey(getKey())}
           </Text>
           <Text uiTextView>Balance:</Text>
           <Text uiTextView selectable>
@@ -168,7 +175,7 @@ const COMPONENTS: ComponentItem[] = [
     name: 'Account Statement',
     component: function RatingsIndicatorExample() {
       return (
-        <View className="gap-3">
+        <View className="mt-4 gap-3">
           <Text className="pb-2 text-center font-semibold">Last 5 Transactions.</Text>
           <View className="flex-row">
             <TabBarIcon name="arrow-up" color="green" />

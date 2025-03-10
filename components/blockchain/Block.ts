@@ -1,14 +1,21 @@
 // or any files within the Snack
+import debug from 'debug';
 import { Transaction } from './Transaction';
 import Crypto from 'crypto-js';
 
 export class Block {
+  timestamp: number;
+  transactions: Transaction[];
+  previousHash: string;
+  hash: string;
+  nonce: number;
+
   /**
    * @param {number} timestamp
    * @param {Transaction[]} transactions
    * @param {string} previousHash
    */
-  constructor(timestamp, transactions, previousHash = '') {
+  constructor(timestamp: number, transactions: Transaction[], previousHash = '') {
     this.previousHash = previousHash;
     this.timestamp = timestamp;
     this.transactions = transactions;
@@ -25,7 +32,7 @@ export class Block {
 
   calculateHash() {
     return Crypto.SHA256(
-      this.index + this.previousHash + this.timestamp + JSON.stringify(this.data)
+      this.timestamp + this.previousHash + JSON.stringify(this.transactions)
     ).toString();
   }
 
@@ -35,7 +42,7 @@ export class Block {
    *
    * @param {number} difficulty
    */
-  mineBlock(difficulty) {
+  mineBlock(difficulty: number) {
     while (this.hash.substring(0, difficulty) !== Array(difficulty + 1).join('0')) {
       this.nonce++;
       this.hash = this.calculateHash();
