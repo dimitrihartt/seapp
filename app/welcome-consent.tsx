@@ -78,7 +78,7 @@ export default function WelcomeConsentScreen() {
               variant="primary">
               <Text
                 onPress={() => {
-                  signIn();
+                  signIn('session-text');
                   // Navigate after signing in. You may want to tweak this to ensure sign-in is
                   // successful before navigating.
                   router.replace('/');
