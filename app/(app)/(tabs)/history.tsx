@@ -7,7 +7,6 @@ import Blockchain from '~/components/blockchain/Blockchain';
 import Transaction from '~/components/blockchain/Transaction';
 
 
-
 export default function History() {
 
   let savjeeCoin = new Blockchain();
