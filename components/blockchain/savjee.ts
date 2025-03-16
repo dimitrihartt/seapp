@@ -1,8 +1,8 @@
 import { ec } from 'elliptic';
 
-import { Block } from '~/components/blockchain/Block';
-import { Blockchain } from '~/components/blockchain/Blockchain';
-import { Transaction } from '~/components/blockchain/Transaction';
+import Block from '~/components/blockchain/Block';
+import Blockchain from '~/components/blockchain/Blockchain';
+import Transaction from '~/components/blockchain/Transaction';
 
 const EC = require('elliptic').ec;
 const ec1 = new EC('secp256k1');

@@ -1,9 +1,14 @@
 // or any files within the Snack
-import { Transaction } from './Transaction';
-import { Block } from './Block';
-import Crypto from 'crypto-js';
+import Transaction from './Transaction';
+import Block from './Block';
+import debug from 'debug';
 
-export class Blockchain {
+export default class Blockchain {
+  chain: Block[];
+  difficulty: number;
+  pendingTransactions: Transaction[];
+  miningReward: number;
+  
   constructor() {
     this.chain = [this.createGenesisBlock()];
     this.difficulty = 2;
@@ -14,8 +19,8 @@ export class Blockchain {
   /**
    * @returns {Block}
    */
-  createGenesisBlock() {
-    return new Block('1', Date.parse('2017-01-01'), [], '0');
+  private createGenesisBlock() {
+    return new Block(Date.now(), [], 'Initial hash');
   }
 
   /**
@@ -35,14 +40,14 @@ export class Blockchain {
    *
    * @param {string} miningRewardAddress
    */
-  minePendingTransactions(miningRewardAddress) {
-    const rewardTx = new Transaction(null, miningRewardAddress, this.miningReward);
+  minePendingTransactions(miningRewardAddress: string) {
+    const rewardTx = new Transaction("Block", miningRewardAddress, this.miningReward);
     this.pendingTransactions.push(rewardTx);
 
-    const block = new Block('1', Date.now(), this.pendingTransactions, this.getLatestBlock().hash);
+    const block = new Block(Date.now(), this.pendingTransactions, this.getLatestBlock().hash);
     block.mineBlock(this.difficulty);
 
-    debug('Block successfully mined!');
+    debug(`Block successfully mined!`);
     this.chain.push(block);
 
     this.pendingTransactions = [];
@@ -55,12 +60,12 @@ export class Blockchain {
    *
    * @param {Transaction} transaction
    */
-  addTransaction(transaction) {
+  addTransaction(transaction: Transaction) {
     if (!transaction.fromAddress || !transaction.toAddress) {
       throw new Error('Transaction must include from and to address');
     }
 
-    // Verify the transactiion
+    // Verify the transaction
     if (!transaction.isValid()) {
       throw new Error('Cannot add invalid transaction to chain');
     }
@@ -81,7 +86,7 @@ export class Blockchain {
     );
 
     // If the wallet has more pending transactions, calculate the total amount
-    // of spend coins so far. If this exceeds the balance, we refuse to add this
+    // of spent coins so far. If this exceeds the balance, we refuse to add this
     // transaction.
     if (pendingTxForWallet.length > 0) {
       const totalPendingAmount = pendingTxForWallet
@@ -95,7 +100,7 @@ export class Blockchain {
     }
 
     this.pendingTransactions.push(transaction);
-    debug('transaction added: %s', transaction);
+    debug(`transaction added: ${transaction}`);
   }
 
   /**
@@ -104,7 +109,7 @@ export class Blockchain {
    * @param {string} address
    * @returns {number} The balance of the wallet
    */
-  getBalanceOfAddress(address) {
+  getBalanceOfAddress(address: string) {
     let balance = 0;
 
     for (const block of this.chain) {
@@ -119,7 +124,7 @@ export class Blockchain {
       }
     }
 
-    debug('getBalanceOfAdrees: %s', balance);
+    debug(`getBalanceOfAdrees: ${balance}`);
     return balance;
   }
 
@@ -130,7 +135,7 @@ export class Blockchain {
    * @param  {string} address
    * @return {Transaction[]}
    */
-  getAllTransactionsForWallet(address) {
+  getAllTransactionsForWallet(address: string) {
     const txs = [];
 
     for (const block of this.chain) {
@@ -141,7 +146,7 @@ export class Blockchain {
       }
     }
 
-    debug('get transactions for wallet count: %s', txs.length);
+    debug(`get transactions for wallet count: ${txs.length}`);
     return txs;
   }
 
@@ -183,5 +188,3 @@ export class Blockchain {
     return true;
   }
 }
-
-module.exports.Blockchain = Blockchain;

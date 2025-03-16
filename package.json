@@ -33,10 +33,12 @@
     "debug": "^4.4.0",
     "elliptic": "^6.6.1",
     "expo": "^52.0.37",
+    "expo-camera": "~16.0.18",
     "expo-constants": "~17.0.7",
     "expo-dev-client": "~5.0.4",
     "expo-dev-launcher": "^5.0.17",
     "expo-linking": "~7.0.5",
+    "expo-maps": "^0.7.3",
     "expo-navigation-bar": "~4.0.8",
     "expo-router": "~4.0.6",
     "expo-secure-store": "~14.0.1",
@@ -56,8 +58,7 @@
     "react-native-uitextview": "^1.1.4",
     "react-native-web": "~0.19.10",
     "tailwind-merge": "^2.2.1",
-    "zustand": "^4.5.1",
-    "expo-camera": "~16.0.18"
+    "zustand": "^4.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

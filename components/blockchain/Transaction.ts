@@ -1,16 +1,21 @@
-'use strict';
-const crypto = require('crypto');
-const EC = require('elliptic').ec;
-const ec = new EC('secp256k1');
-const debug = require('debug')('savjeecoin:blockchain');
+import Elliptic from 'elliptic';
+import Crypto from 'crypto-js';
 
-class Transaction {
+const ec = new Elliptic.ec('secp256k1');
+
+export default class Transaction {
+  fromAddress: string;
+  toAddress: string;
+  amount: number;
+  timestamp: number;
+  signature: any;
+
   /**
    * @param {string} fromAddress
    * @param {string} toAddress
    * @param {number} amount
    */
-  constructor(fromAddress, toAddress, amount) {
+  constructor(fromAddress: any, toAddress: any, amount: any) {
     this.fromAddress = fromAddress;
     this.toAddress = toAddress;
     this.amount = amount;
@@ -23,10 +28,12 @@ class Transaction {
    * @returns {string}
    */
   calculateHash() {
-    return crypto
-      .createHash('sha256')
-      .update(this.fromAddress + this.toAddress + this.amount + this.timestamp)
-      .digest('hex');
+    return Crypto.SHA256(
+          this.fromAddress + 
+          this.toAddress + 
+          this.amount +
+          this.timestamp          
+        ).toString();
   }
 
   /**
@@ -36,7 +43,10 @@ class Transaction {
    *
    * @param {string} signingKey
    */
-  sign(signingKey) {
+  sign(signingKey: { 
+    getPublic: (arg0: string) => any; 
+    sign: (arg0: any, arg1: string) => any; 
+  }) {
     // You can only send a transaction from the wallet that is linked to your
     // key. So here we check if the fromAddress matches your publicKey
     if (signingKey.getPublic('hex') !== this.fromAddress) {

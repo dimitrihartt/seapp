@@ -37,7 +37,7 @@ export default function TabLayout() {
           tabBarLabel: 'History',
           tabBarIcon: ({ color }) => <TabBarIconFontAwesome5 name="history" color={color} />,
         }}
-      />
+      />      
     </Tabs>
   );
 }

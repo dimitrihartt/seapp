@@ -1,9 +1,9 @@
 // or any files within the Snack
 import debug from 'debug';
-import { Transaction } from './Transaction';
+import Transaction from './Transaction';
 import Crypto from 'crypto-js';
 
-export class Block {
+export default class Block {  
   timestamp: number;
   transactions: Transaction[];
   previousHash: string;
@@ -16,9 +16,9 @@ export class Block {
    * @param {string} previousHash
    */
   constructor(timestamp: number, transactions: Transaction[], previousHash = '') {
-    this.previousHash = previousHash;
     this.timestamp = timestamp;
     this.transactions = transactions;
+    this.previousHash = previousHash;
     this.nonce = 0;
     this.hash = this.calculateHash();
   }
@@ -32,7 +32,9 @@ export class Block {
 
   calculateHash() {
     return Crypto.SHA256(
-      this.timestamp + this.previousHash + JSON.stringify(this.transactions)
+      this.timestamp + 
+      this.previousHash + 
+      JSON.stringify(this.transactions)
     ).toString();
   }
 
