@@ -3,7 +3,6 @@
     "name": "seapp",
     "slug": "seapp",
     "version": "1.0.0",
-
     "scheme": "seapp",
     "web": {
       "bundler": "metro",
@@ -21,21 +20,19 @@
     ],
     "experiments": {
       "typedRoutes": true,
-
       "tsconfigPaths": true
     },
-
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-
     "userInterfaceStyle": "light",
-
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -43,7 +40,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.dimitrihartt.seapp"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "cdbd4d06-bb24-46bd-bf67-21638c74261b"
       }
-    }
+    },
+    "owner": "dimitrihartt"
   }
 }
