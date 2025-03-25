@@ -4,9 +4,15 @@
     "strict": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
-    "paths": {
+    "paths": {      
       "~/*": [
         "*"
+      ],
+      "@/*": [
+        "./app/*"
+      ],
+      "tailwind.config": [
+        "./tailwind.config.js"
       ]
     }
   },
