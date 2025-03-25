@@ -12,7 +12,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: 'Homes',
           tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
@@ -24,14 +24,28 @@ export default function TabLayout() {
       <Tabs.Screen
         name="wallet"
         options={{
-          title: 'Wallet',
+          title: 'wallet',
           tabBarIcon: ({ color }) => <TabBarIcon name="money" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="scan"
+        options={{
+          title: 'Scanner',
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: 'My Profile',
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+        }}
+      />
+       <Tabs.Screen
+        name="dashboard"
+        options={{
+          title: 'Dashboard',
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />

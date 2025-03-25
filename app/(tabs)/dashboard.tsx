@@ -8,11 +8,11 @@ export default function Home() {
     <>
       <Stack.Screen
         options={{
-          title: 'Home',
+          title: 'Dashboard',
         }}
       />
       <View style={styles.container}>
-        <ScreenContent path="app/(tabs)/index.tsx" title="Home" />
+        <ScreenContent path="app/(tabs)/index.tsx" title="Dashboard" />
         <Button action={'primary'} variant={'solid'} size={'md'} isDisabled={false}>
           <ButtonText>Hello World</ButtonText>
         </Button>

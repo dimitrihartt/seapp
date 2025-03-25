@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { ScreenContent } from '~/app/components/ScreenContent';
 
-export default function Home() {
+export default function Scan() {
   return (
     <>
       <Stack.Screen options={{ title: 'Scan' }} />
