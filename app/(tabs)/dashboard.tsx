@@ -1,8 +1,8 @@
 import React from 'react';
 import { Stack } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
-import { ScreenContent } from '~/app/components/ScreenContent';
-import { Button, ButtonText } from '@/components/ui/button';
+import { ScreenContent } from '~/components/ScreenContent';
+import { Button, ButtonText } from '~/components/ui/button';
 export default function Home() {
   return (
     <>
